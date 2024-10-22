@@ -32,21 +32,21 @@ public class Comment {
 	@Column(nullable = false, length = 100)
 	private String content;
 
-	@Column(nullable = false, length = 50)
-	private LocalDateTime createAt;
+	@Column(nullable = false)
+	private LocalDateTime createdAt;
 
 	@Column(nullable = true, length = 50)
 	private String parentReviewUuid;
 
 	@Builder
 	public Comment(String commentCode, String feedCode, String userUuid, String content,
-		LocalDateTime createAt, String parentReviewUuid) {
+		LocalDateTime createdAt, String parentReviewUuid) {
 
 		this.commentCode = commentCode;
 		this.feedCode = feedCode;
 		this.userUuid = userUuid;
 		this.content = content;
-		this.createAt = createAt;
+		this.createdAt = createdAt;
 		this.parentReviewUuid = parentReviewUuid;
 	}
 }

@@ -14,17 +14,17 @@ public class CommentResponseDto {
 	private String feedCode;
 	private String userUuid;
 	private String content;
-	private LocalDateTime createAt;
+	private LocalDateTime createdAt;
 	private String parentReviewUuid;
 
 	@Builder
 	public CommentResponseDto(String commentCode, String feedCode, String userUuid, String content,
-		LocalDateTime createAt, String parentReviewUuid) {
+		LocalDateTime creatdeAt, String parentReviewUuid) {
 		this.commentCode = commentCode;
 		this.feedCode = feedCode;
 		this.userUuid = userUuid;
 		this.content = content;
-		this.createAt = createAt;
+		this.createdAt = creatdeAt;
 		this.parentReviewUuid = parentReviewUuid;
 
 	}

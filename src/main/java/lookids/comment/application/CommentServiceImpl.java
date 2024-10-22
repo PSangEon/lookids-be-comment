@@ -21,7 +21,7 @@ public class CommentServiceImpl implements CommentService {
 			.feedCode(commentCreateDto.getFeedCode())
 			.userUuid(commentCreateDto.getUserUuid())
 			.content(commentCreateDto.getContent())
-			.createAt(commentCreateDto.getCreateAt())
+			.createdAt(commentCreateDto.getCreatedAt())
 			.parentReviewUuid(commentCreateDto.getParentReviewUuid())
 			.build();
 		commentRepository.save(comment);
@@ -40,7 +40,7 @@ public class CommentServiceImpl implements CommentService {
 			.feedCode(getComment.getFeedCode())
 			.userUuid(getComment.getUserUuid())
 			.content(getComment.getContent())
-			.createAt(getComment.getCreateAt())
+			.creatdeAt(getComment.getCreatedAt())
 			.parentReviewUuid(getComment.getParentReviewUuid())
 			.build();
 	}

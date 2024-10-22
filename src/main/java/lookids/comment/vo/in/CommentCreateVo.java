@@ -10,7 +10,7 @@ public class CommentCreateVo {
 	private String feedCode;
 	private String userUuid;
 	private String content;
-	private LocalDateTime createAt;
+	private LocalDateTime createdAt;
 	private String parentReviewUuid;
 }
 
