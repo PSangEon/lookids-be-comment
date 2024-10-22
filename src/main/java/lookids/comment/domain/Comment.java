@@ -39,8 +39,14 @@ public class Comment {
 	private String parentReviewUuid;
 
 	@Builder
-	public Comment(String commentCode, String feedCode, String userUuid, String content,
-		LocalDateTime createdAt, String parentReviewUuid) {
+	public Comment(
+		String commentCode,
+		String feedCode,
+		String userUuid,
+		String content,
+		LocalDateTime createdAt,
+		String parentReviewUuid
+	) {
 
 		this.commentCode = commentCode;
 		this.feedCode = feedCode;

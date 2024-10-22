@@ -17,15 +17,20 @@ import lookids.comment.vo.in.CommentCreateVo;
 @RequestMapping("/api/vi/")
 public class CommentController {
 
-	private final CommentService commentService;
+	private final CommentService commentService;   //final들어가면 변경 불가능!!!!!!!
 
 	// @Operation(summary = "createComment API", description = "creatComment API 입니다." ,tags = {"Commetn"})
 	@PostMapping("Comment")
 	public void createComment(@RequestBody CommentCreateVo commentCreateVo) {
-		CommentCreateDto commentCreateDto = new CommentCreateDto();
+		CommentCreateDto commentCreateDto = CommentCreateDto.builder()
+			.commentCode(commentCreateVo.getCommentCode())
+			.feedCode(commentCreateVo.getFeedCode())
+			.userUuid(commentCreateVo.getUserUuid())
+			.content(commentCreateVo.getContent())
+			.createdAt(commentCreateVo.getCreatedAt())
+			.parentReviewUuid(commentCreateVo.getParentReviewUuid())
+			.build();
 
-		commentService.createComment(
-
-		);
+		commentService.createComment(commentCreateDto);
 	}
 }
