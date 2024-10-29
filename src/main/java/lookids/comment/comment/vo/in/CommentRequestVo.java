@@ -1,17 +1,16 @@
-package lookids.comment.vo.in;
-
-import java.time.LocalDateTime;
+package lookids.comment.comment.vo.in;
 
 import lombok.Getter;
+import lombok.ToString;
 
+@ToString
 @Getter
-public class CommentCreateVo {
-	private String commentCode;
+public class CommentRequestVo {
+
 	private String feedCode;
 	private String userUuid;
 	private String content;
-	private LocalDateTime createdAt;
-	private String parentReviewUuid;
+	private String parentCommentCode;
 }
 
 /*

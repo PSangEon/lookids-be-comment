@@ -1,6 +1,7 @@
-package lookids.comment.domain;
+package lookids.comment.comment.domain;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -29,30 +30,38 @@ public class Comment {
 	@Column(nullable = false, length = 50)
 	private String userUuid;
 
-	@Column(nullable = false, length = 100)
+	@Column(nullable = false, length = 500)
 	private String content;
 
 	@Column(nullable = false)
 	private LocalDateTime createdAt;
 
 	@Column(nullable = true, length = 50)
-	private String parentReviewUuid;
+	private String parentCommentCode;
+
+	// 삭제됐는지를 판단하는 상태값 컬럼 true or false
+	@Column(nullable = false)
+	private boolean commentStatus;
 
 	@Builder
 	public Comment(
-		String commentCode,
+		Long id,
 		String feedCode,
 		String userUuid,
 		String content,
-		LocalDateTime createdAt,
-		String parentReviewUuid
+		String parentCommentCode
 	) {
-
-		this.commentCode = commentCode;
+		this.id = id;
+		this.commentCode = UUID.randomUUID().toString();
 		this.feedCode = feedCode;
 		this.userUuid = userUuid;
 		this.content = content;
-		this.createdAt = createdAt;
-		this.parentReviewUuid = parentReviewUuid;
+		this.createdAt = LocalDateTime.now();
+		this.parentCommentCode = parentCommentCode;
+		this.commentStatus = true;
+	}
+
+	public void deleteComment() {
+		this.commentStatus = false;
 	}
 }
