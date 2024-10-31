@@ -49,7 +49,7 @@ public class CommentController {
 		return new BaseResponse<>(pageResponseDto.toVo());
 	}
 
-	@Operation(summary = "isDeleteCommentList API", description = "isDelete API 입니다.", tags = {"Comment"})
+	@Operation(summary = "isDeleteCommentList API", description = "isDelete API 입니다. 완전삭제 아", tags = {"Comment"})
 	@DeleteMapping("/{commentCode}")
 	public BaseResponse<Void> deleteComment(@PathVariable String commentCode) {
 		commentService.deleteComment(commentCode);
