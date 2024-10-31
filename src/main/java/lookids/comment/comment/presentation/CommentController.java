@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import lookids.comment.comment.application.CommentService;
@@ -27,7 +28,7 @@ public class CommentController {
 
 	private final CommentService commentService;   //final들어가면 변경 불가능!!!!!!!
 
-	// @Operation(summary = "createComment API", description = "creatComment API 입니다." ,tags = {"Commetn"})
+	@Operation(summary = "createComment API", description = "createComment API 입니다.", tags = {"Comment"})
 	@PostMapping
 	public BaseResponse<Void> createComment(@RequestBody CommentRequestVo commentRequestVo) {
 
@@ -35,6 +36,7 @@ public class CommentController {
 		return new BaseResponse<>(BaseResponseStatus.SUCCESS);
 	}
 
+	@Operation(summary = "readCommentList API", description = "readCommentList API 입니다.", tags = {"Comment"})
 	@GetMapping()
 	public BaseResponse<PageResponseVo> readCommentList(@RequestParam(value = "feedCode") String feedCode,
 		@RequestParam(value = "page", defaultValue = "0") int page,
@@ -47,6 +49,7 @@ public class CommentController {
 		return new BaseResponse<>(pageResponseDto.toVo());
 	}
 
+	@Operation(summary = "isDeleteCommentList API", description = "isDelete API 입니다.", tags = {"Comment"})
 	@DeleteMapping("/{commentCode}")
 	public BaseResponse<Void> deleteComment(@PathVariable String commentCode) {
 		commentService.deleteComment(commentCode);
