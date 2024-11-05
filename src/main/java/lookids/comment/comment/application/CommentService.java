@@ -31,6 +31,7 @@ public interface CommentService {
 	 */
 	PageResponseDto getCommentList(String feedCode, int page, int size);
 
+	PageResponseDto readReplyList(String parentCommentCode, int page, int size);
 	/**
 	 * 댓글을 삭제합니다.
 	 *

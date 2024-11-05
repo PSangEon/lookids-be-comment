@@ -43,6 +43,16 @@ public class CommentServiceImpl implements CommentService {
 	}
 
 	@Override
+	public PageResponseDto readReplyList(String parentCommentCode, int page, int size) {
+		Pageable pageable = PageRequest.of(page, size, Sort.by("createdAt").descending());
+		Page<Comment> commentList = commentRepository.findAllByParentCommentCodeAndCommentStatus(parentCommentCode, true, pageable);
+
+		List<CommentResponseDto> responseDtoList = commentList.stream().map(CommentResponseDto::toDto).toList();
+
+		return PageResponseDto.toDto(page, commentList.getTotalPages(), commentList.hasNext(), responseDtoList);
+	}
+
+	@Override
 	public void deleteComment(String commentCode) {
 		Comment comment = commentRepository.findByCommentCode(commentCode).orElseThrow(
 			() -> new BaseException(BaseResponseStatus.NO_EXIST_DATA)

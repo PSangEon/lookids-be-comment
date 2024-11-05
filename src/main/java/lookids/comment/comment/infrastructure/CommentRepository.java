@@ -11,5 +11,7 @@ import lookids.comment.comment.domain.Comment;
 public interface CommentRepository extends JpaRepository<Comment, Long> {
 	Page<Comment> findAllByFeedCodeAndCommentStatus(String feedCode, boolean commentStatus, Pageable pageable);
 
+	Page<Comment> findAllByParentCommentCodeAndCommentStatus(String parentCommentCode, boolean commentStatus, Pageable pageable);
+
 	Optional<Comment> findByCommentCode(String commentCode);
 }
