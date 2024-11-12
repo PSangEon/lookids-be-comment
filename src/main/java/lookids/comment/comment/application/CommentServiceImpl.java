@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import lombok.RequiredArgsConstructor;
 import lookids.comment.comment.domain.Comment;
+import lookids.comment.comment.dto.in.CommentDeleteDto;
 import lookids.comment.comment.dto.in.CommentRequestDto;
 import lookids.comment.comment.dto.out.CommentResponseDto;
 import lookids.comment.comment.infrastructure.CommentRepository;
@@ -45,7 +46,8 @@ public class CommentServiceImpl implements CommentService {
 	@Override
 	public PageResponseDto readReplyList(String parentCommentCode, int page, int size) {
 		Pageable pageable = PageRequest.of(page, size, Sort.by("createdAt").descending());
-		Page<Comment> commentList = commentRepository.findAllByParentCommentCodeAndCommentStatus(parentCommentCode, true, pageable);
+		Page<Comment> commentList = commentRepository.findAllByParentCommentCodeAndCommentStatus(parentCommentCode,
+			true, pageable);
 
 		List<CommentResponseDto> responseDtoList = commentList.stream().map(CommentResponseDto::toDto).toList();
 
@@ -53,13 +55,13 @@ public class CommentServiceImpl implements CommentService {
 	}
 
 	@Override
-	public void deleteComment(String commentCode) {
-		Comment comment = commentRepository.findByCommentCode(commentCode).orElseThrow(
+	public void deleteComment(CommentDeleteDto commentDeleteDto) {
+		Comment comment = commentRepository.findByCommentCodeAndUserUuidAndCommentStatus(
+			commentDeleteDto.getCommentCode(),
+			commentDeleteDto.getUserUuid(), true).orElseThrow(
 			() -> new BaseException(BaseResponseStatus.NO_EXIST_DATA)
 		);
-
-		comment.deleteComment();
-		commentRepository.save(comment);
+		commentRepository.save(commentDeleteDto.toEntity(comment));
 	}
 
 	// @Override

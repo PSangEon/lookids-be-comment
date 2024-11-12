@@ -1,7 +1,6 @@
 package lookids.comment.comment.domain;
 
 import java.time.LocalDateTime;
-import java.util.UUID;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -47,21 +46,19 @@ public class Comment {
 	public Comment(
 		Long id,
 		String feedCode,
+		String commentCode,
 		String userUuid,
 		String content,
-		String parentCommentCode
+		String parentCommentCode,
+		Boolean commentStatus
 	) {
 		this.id = id;
-		this.commentCode = UUID.randomUUID().toString();
+		this.commentCode = commentCode;
 		this.feedCode = feedCode;
 		this.userUuid = userUuid;
 		this.content = content;
 		this.createdAt = LocalDateTime.now();
 		this.parentCommentCode = parentCommentCode;
-		this.commentStatus = true;
-	}
-
-	public void deleteComment() {
-		this.commentStatus = false;
+		this.commentStatus = commentStatus;
 	}
 }

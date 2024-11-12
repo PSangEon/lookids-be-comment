@@ -1,5 +1,7 @@
 package lookids.comment.comment.dto.in;
 
+import java.util.UUID;
+
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -28,10 +30,10 @@ public class CommentRequestDto {
 		this.parentCommentCode = parentCommentCode;
 	}
 
-	public static CommentRequestDto toDto(CommentRequestVo commentRequestVo) {
+	public static CommentRequestDto toDto(CommentRequestVo commentRequestVo, String userUuid) {
 		return CommentRequestDto.builder()
 			.feedCode(commentRequestVo.getFeedCode())
-			.userUuid(commentRequestVo.getUserUuid())
+			.userUuid(userUuid)
 			.content(commentRequestVo.getContent())
 			.parentCommentCode(commentRequestVo.getParentCommentCode())
 			.build();
@@ -40,10 +42,12 @@ public class CommentRequestDto {
 
 	public Comment toEntity() {
 		return Comment.builder()
+			.commentCode(UUID.randomUUID().toString())
 			.feedCode(this.feedCode)
 			.userUuid(this.userUuid)
 			.content(this.content)
 			.parentCommentCode(this.parentCommentCode)
+			.commentStatus(true)
 			.build();
 	}
 }

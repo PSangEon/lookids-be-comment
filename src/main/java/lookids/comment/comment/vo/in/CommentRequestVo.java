@@ -8,7 +8,6 @@ import lombok.ToString;
 public class CommentRequestVo {
 
 	private String feedCode;
-	private String userUuid;
 	private String content;
 	private String parentCommentCode;
 }

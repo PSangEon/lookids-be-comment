@@ -1,5 +1,6 @@
 package lookids.comment.comment.application;
 
+import lookids.comment.comment.dto.in.CommentDeleteDto;
 import lookids.comment.comment.dto.in.CommentRequestDto;
 import lookids.comment.common.dto.PageResponseDto;
 
@@ -32,11 +33,12 @@ public interface CommentService {
 	PageResponseDto getCommentList(String feedCode, int page, int size);
 
 	PageResponseDto readReplyList(String parentCommentCode, int page, int size);
+
 	/**
 	 * 댓글을 삭제합니다.
 	 *
 	 * @param commentCode 댓글 코드
 	 */
-	void deleteComment(String commentCode);
+	void deleteComment(CommentDeleteDto commentDeleteDto);
 
 }
