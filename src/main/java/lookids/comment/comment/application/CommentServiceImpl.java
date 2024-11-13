@@ -57,27 +57,8 @@ public class CommentServiceImpl implements CommentService {
 	@Override
 	public void deleteComment(CommentDeleteDto commentDeleteDto) {
 		Comment comment = commentRepository.findByCommentCodeAndUserUuidAndCommentStatus(
-			commentDeleteDto.getCommentCode(),
-			commentDeleteDto.getUserUuid(), true).orElseThrow(
-			() -> new BaseException(BaseResponseStatus.NO_EXIST_DATA)
-		);
+				commentDeleteDto.getCommentCode(), commentDeleteDto.getUserUuid(), true)
+			.orElseThrow(() -> new BaseException(BaseResponseStatus.NO_EXIST_DATA));
 		commentRepository.save(commentDeleteDto.toEntity(comment));
 	}
-
-	// @Override
-	// public CommentResponseDto getCommentById(Long id) {
-	//
-	// 	Comment getComment = commentRepository.findById(id).orElseThrow(
-	// 		() -> new IllegalArgumentException("데이터 없음")
-	// 	);
-	//
-	// 	return CommentResponseDto.builder()
-	// 		.commentCode(getComment.getCommentCode())
-	// 		.feedCode(getComment.getFeedCode())
-	// 		.userUuid(getComment.getUserUuid())
-	// 		.content(getComment.getContent())
-	// 		.createdAt(getComment.getCreatedAt())
-	// 		.parentReviewUuid(getComment.getParent_commetn_code())
-	// 		.build();
-	// }
 }
