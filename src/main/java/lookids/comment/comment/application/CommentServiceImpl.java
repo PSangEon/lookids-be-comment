@@ -6,10 +6,12 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import lookids.comment.comment.domain.Comment;
 import lookids.comment.comment.dto.in.CommentDeleteDto;
 import lookids.comment.comment.dto.in.CommentRequestDto;
@@ -19,18 +21,21 @@ import lookids.comment.common.dto.PageResponseDto;
 import lookids.comment.common.entity.BaseResponseStatus;
 import lookids.comment.common.exception.BaseException;
 
+@Slf4j
 @Transactional
 @Service
 @RequiredArgsConstructor //생성자 주입(?)
 public class CommentServiceImpl implements CommentService {
 
 	private final CommentRepository commentRepository;
+	private final KafkaTemplate<String, Comment> kafkaTemplate;
 
 	@Override
 	public void createComment(CommentRequestDto commentRequestDto) {
 
-		commentRepository.save(commentRequestDto.toEntity());
+		Comment comment = commentRepository.save(commentRequestDto.toEntity());
 		//save() 메서드는 엔티티의 삽입(insert)과 수정(update)을 처리하는 중요한 메서드
+		sendMessage("comment-create", comment);
 	}
 
 	@Override
@@ -60,5 +65,9 @@ public class CommentServiceImpl implements CommentService {
 				commentDeleteDto.getCommentCode(), commentDeleteDto.getUserUuid(), true)
 			.orElseThrow(() -> new BaseException(BaseResponseStatus.NO_EXIST_DATA));
 		commentRepository.save(commentDeleteDto.toEntity(comment));
+	}
+
+	public void sendMessage(String topic, Comment comment) {
+		kafkaTemplate.send(topic, comment);
 	}
 }
