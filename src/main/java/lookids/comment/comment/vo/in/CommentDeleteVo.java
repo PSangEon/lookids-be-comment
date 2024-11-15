@@ -6,7 +6,6 @@ import lombok.ToString;
 
 @Getter
 @ToString
-@Builder
 public class CommentDeleteVo {
 	private String commentCode;
 }
