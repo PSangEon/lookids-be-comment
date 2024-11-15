@@ -29,7 +29,7 @@ public class Comment {
 	@Column(nullable = false, length = 50)
 	private String userUuid;
 
-	@Column(nullable = false, length = 500)
+	@Column(nullable = false, columnDefinition = "TEXT", length = 500)
 	private String content;
 
 	@Column(nullable = false)
@@ -43,15 +43,8 @@ public class Comment {
 	private boolean commentStatus;
 
 	@Builder
-	public Comment(
-		Long id,
-		String feedCode,
-		String commentCode,
-		String userUuid,
-		String content,
-		String parentCommentCode,
-		Boolean commentStatus
-	) {
+	public Comment(Long id, String feedCode, String commentCode, String userUuid, String content,
+		String parentCommentCode, Boolean commentStatus) {
 		this.id = id;
 		this.commentCode = commentCode;
 		this.feedCode = feedCode;
