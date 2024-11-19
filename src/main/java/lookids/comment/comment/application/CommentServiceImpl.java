@@ -17,6 +17,7 @@ import lookids.comment.comment.dto.in.CommentDeleteDto;
 import lookids.comment.comment.dto.in.CommentRequestDto;
 import lookids.comment.comment.dto.out.CommentResponseDto;
 import lookids.comment.comment.infrastructure.CommentRepository;
+import lookids.comment.comment.vo.out.CommentResponseVo;
 import lookids.comment.common.dto.PageResponseDto;
 import lookids.comment.common.entity.BaseResponseStatus;
 import lookids.comment.common.exception.BaseException;
@@ -28,14 +29,14 @@ import lookids.comment.common.exception.BaseException;
 public class CommentServiceImpl implements CommentService {
 
 	private final CommentRepository commentRepository;
-	private final KafkaTemplate<String, Comment> kafkaTemplate;
+	private final KafkaTemplate<String, CommentResponseVo> kafkaTemplate;
 
 	@Override
 	public void createComment(CommentRequestDto commentRequestDto) {
 
 		Comment comment = commentRepository.save(commentRequestDto.toEntity());
 		//save() 메서드는 엔티티의 삽입(insert)과 수정(update)을 처리하는 중요한 메서드
-		sendMessage("comment-create", comment);
+		sendMessage("comment-create", CommentResponseDto.toDto(comment).toVo());
 	}
 
 	@Override
@@ -67,7 +68,7 @@ public class CommentServiceImpl implements CommentService {
 		commentRepository.save(commentDeleteDto.toEntity(comment));
 	}
 
-	public void sendMessage(String topic, Comment comment) {
-		kafkaTemplate.send(topic, comment);
+	public void sendMessage(String topic, CommentResponseVo commentResponseVo) {
+		kafkaTemplate.send(topic, commentResponseVo);
 	}
 }
