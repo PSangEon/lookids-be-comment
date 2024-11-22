@@ -15,9 +15,11 @@ import lombok.extern.slf4j.Slf4j;
 import lookids.comment.comment.domain.Comment;
 import lookids.comment.comment.dto.in.CommentDeleteDto;
 import lookids.comment.comment.dto.in.CommentRequestDto;
+import lookids.comment.comment.dto.in.ReplyRequestDto;
 import lookids.comment.comment.dto.out.CommentResponseDto;
 import lookids.comment.comment.infrastructure.CommentRepository;
-import lookids.comment.comment.vo.out.CommentResponseVo;
+import lookids.comment.comment.vo.out.CommentKafkaVo;
+import lookids.comment.comment.vo.out.ReplyKafkaVo;
 import lookids.comment.common.dto.PageResponseDto;
 import lookids.comment.common.entity.BaseResponseStatus;
 import lookids.comment.common.exception.BaseException;
@@ -29,14 +31,23 @@ import lookids.comment.common.exception.BaseException;
 public class CommentServiceImpl implements CommentService {
 
 	private final CommentRepository commentRepository;
-	private final KafkaTemplate<String, CommentResponseVo> kafkaTemplate;
+	private final KafkaTemplate<String, CommentKafkaVo> commentkafkaTemplate;
+	private final KafkaTemplate<String, ReplyKafkaVo> replykafkaTemplate;
 
 	@Override
 	public void createComment(CommentRequestDto commentRequestDto) {
 
 		Comment comment = commentRepository.save(commentRequestDto.toEntity());
 		//save() 메서드는 엔티티의 삽입(insert)과 수정(update)을 처리하는 중요한 메서드
-		sendMessage("comment-create", CommentResponseDto.toDto(comment).toVo());
+		commentkafkaTemplate.send("comment-create", CommentResponseDto.toDto(comment).toCommentKafkaVo());
+	}
+
+	@Override
+	public void createReply(ReplyRequestDto replyRequestDto) {
+
+		Comment comment = commentRepository.save(replyRequestDto.toEntity());
+		//save() 메서드는 엔티티의 삽입(insert)과 수정(update)을 처리하는 중요한 메서드
+		replykafkaTemplate.send("comment-reply-create", CommentResponseDto.toDto(comment).toReplyKafkaVo());
 	}
 
 	@Override
@@ -65,10 +76,17 @@ public class CommentServiceImpl implements CommentService {
 		Comment comment = commentRepository.findByCommentCodeAndUserUuidAndCommentStatus(
 				commentDeleteDto.getCommentCode(), commentDeleteDto.getUserUuid(), true)
 			.orElseThrow(() -> new BaseException(BaseResponseStatus.NO_EXIST_DATA));
+		commentkafkaTemplate.send("comment-delete", CommentResponseDto.toDto(comment).toCommentKafkaVo());
 		commentRepository.save(commentDeleteDto.toEntity(comment));
 	}
 
-	public void sendMessage(String topic, CommentResponseVo commentResponseVo) {
-		kafkaTemplate.send(topic, commentResponseVo);
+	@Override
+	public void deleteReply(CommentDeleteDto commentDeleteDto) {
+		Comment comment = commentRepository.findByCommentCodeAndUserUuidAndCommentStatus(
+				commentDeleteDto.getCommentCode(), commentDeleteDto.getUserUuid(), true)
+			.orElseThrow(() -> new BaseException(BaseResponseStatus.NO_EXIST_DATA));
+		replykafkaTemplate.send("comment-reply-delete", CommentResponseDto.toDto(comment).toReplyKafkaVo());
+		commentRepository.save(commentDeleteDto.toEntity(comment));
 	}
+
 }

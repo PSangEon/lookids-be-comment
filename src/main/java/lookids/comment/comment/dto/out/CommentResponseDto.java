@@ -6,7 +6,9 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lookids.comment.comment.domain.Comment;
+import lookids.comment.comment.vo.out.CommentKafkaVo;
 import lookids.comment.comment.vo.out.CommentResponseVo;
+import lookids.comment.comment.vo.out.ReplyKafkaVo;
 
 @Getter
 @NoArgsConstructor
@@ -43,12 +45,32 @@ public class CommentResponseDto {
 
 	public CommentResponseVo toVo() {
 		return CommentResponseVo.builder()
+			.commentCode(commentCode)
+			.feedCode(feedCode)
+			.userUuid(userUuid)
+			.content(content)
+			.createdAt(createdAt)
+			.parentCommentCode(parentCommentCode)
+			.build();
+	}
+
+	public CommentKafkaVo toCommentKafkaVo() {
+		return CommentKafkaVo.builder()
+			.commentCode(commentCode)
+			.feedCode(feedCode)
+			.userUuid(userUuid)
+			.content(content)
+			.createdAt(createdAt)
+			.build();
+	}
+
+	public ReplyKafkaVo toReplyKafkaVo() {
+		return ReplyKafkaVo.builder()
 			.commentCode(this.commentCode)
-			.feedCode(this.feedCode)
-			.userUuid(this.userUuid)
-			.content(this.content)
-			.createdAt(this.createdAt)
-			.parentCommentCode(this.parentCommentCode)
+			.parentCommentCode(parentCommentCode)
+			.userUuid(userUuid)
+			.content(content)
+			.createdAt(createdAt)
 			.build();
 	}
 

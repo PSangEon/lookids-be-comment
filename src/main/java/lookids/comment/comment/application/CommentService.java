@@ -2,6 +2,7 @@ package lookids.comment.comment.application;
 
 import lookids.comment.comment.dto.in.CommentDeleteDto;
 import lookids.comment.comment.dto.in.CommentRequestDto;
+import lookids.comment.comment.dto.in.ReplyRequestDto;
 import lookids.comment.common.dto.PageResponseDto;
 
 /**
@@ -15,6 +16,8 @@ public interface CommentService {
 	 * @param commentRequestDto 댓글 세부 정보를 포함하는 데이터 전송 객체
 	 */
 	void createComment(CommentRequestDto commentRequestDto);
+
+	void createReply(ReplyRequestDto replyRequestDto);
 
 	/**
 	 * ID로 댓글을 조회합니다.
@@ -40,5 +43,7 @@ public interface CommentService {
 	 * @param commentCode 댓글 코드
 	 */
 	void deleteComment(CommentDeleteDto commentDeleteDto);
+
+	void deleteReply(CommentDeleteDto commentDeleteDto);
 
 }

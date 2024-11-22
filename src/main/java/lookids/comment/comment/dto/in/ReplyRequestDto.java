@@ -6,28 +6,30 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lookids.comment.comment.domain.Comment;
-import lookids.comment.comment.vo.in.CommentRequestVo;
+import lookids.comment.comment.vo.in.ReplyRequestVo;
 
 @Getter
 @NoArgsConstructor
-public class CommentRequestDto {
-
+public class ReplyRequestDto {
 	private String feedCode;
 	private String userUuid;
 	private String content;
+	private String parentCommentCode;
 
 	@Builder
-	public CommentRequestDto(String feedCode, String userUuid, String content) {
+	public ReplyRequestDto(String feedCode, String userUuid, String content, String parentCommentCode) {
 		this.feedCode = feedCode;
 		this.userUuid = userUuid;
 		this.content = content;
+		this.parentCommentCode = parentCommentCode;
 	}
 
-	public static CommentRequestDto toDto(CommentRequestVo commentRequestVo, String userUuid) {
-		return CommentRequestDto.builder()
-			.feedCode(commentRequestVo.getFeedCode())
+	public static ReplyRequestDto toDto(ReplyRequestVo replyRequestVo, String userUuid) {
+		return ReplyRequestDto.builder()
+			.feedCode(replyRequestVo.getFeedCode())
 			.userUuid(userUuid)
-			.content(commentRequestVo.getContent())
+			.content(replyRequestVo.getContent())
+			.parentCommentCode(replyRequestVo.getParentCommentCode())
 			.build();
 		//dto로 전환을 시켜줌.
 	}
@@ -38,6 +40,7 @@ public class CommentRequestDto {
 			.feedCode(feedCode)
 			.userUuid(userUuid)
 			.content(content)
+			.parentCommentCode(parentCommentCode)
 			.commentStatus(true)
 			.build();
 	}

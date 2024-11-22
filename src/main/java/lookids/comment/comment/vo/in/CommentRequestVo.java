@@ -6,10 +6,8 @@ import lombok.ToString;
 @ToString
 @Getter
 public class CommentRequestVo {
-
 	private String feedCode;
 	private String content;
-	private String parentCommentCode;
 }
 
 /*
