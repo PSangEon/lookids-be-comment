@@ -47,7 +47,7 @@ public class CommentResponseDto {
 		return CommentResponseVo.builder()
 			.commentCode(commentCode)
 			.feedCode(feedCode)
-			.userUuid(userUuid)
+			.uuid(userUuid)
 			.content(content)
 			.createdAt(createdAt)
 			.parentCommentCode(parentCommentCode)
@@ -58,7 +58,7 @@ public class CommentResponseDto {
 		return CommentKafkaVo.builder()
 			.commentCode(commentCode)
 			.feedCode(feedCode)
-			.userUuid(userUuid)
+			.uuid(userUuid)
 			.content(content)
 			.createdAt(createdAt)
 			.build();
@@ -68,7 +68,7 @@ public class CommentResponseDto {
 		return ReplyKafkaVo.builder()
 			.commentCode(this.commentCode)
 			.parentCommentCode(parentCommentCode)
-			.userUuid(userUuid)
+			.uuid(userUuid)
 			.content(content)
 			.createdAt(createdAt)
 			.build();

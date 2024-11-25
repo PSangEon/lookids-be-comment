@@ -9,7 +9,7 @@ import lombok.Getter;
 @Builder
 public class ReplyKafkaVo {
 	private String commentCode;
-	private String userUuid;
+	private String uuid;
 	private String content;
 	private LocalDateTime createdAt;
 	private String parentCommentCode;
