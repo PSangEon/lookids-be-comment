@@ -1,6 +1,7 @@
 package lookids.comment.comment.application;
 
 import java.util.List;
+import java.util.UUID;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -37,7 +38,7 @@ public class CommentServiceImpl implements CommentService {
 	@Override
 	public void createComment(CommentRequestDto commentRequestDto) {
 
-		Comment comment = commentRepository.save(commentRequestDto.toEntity());
+		Comment comment = commentRepository.save(commentRequestDto.toEntity(generateUniqueCommentCode()));
 		//save() 메서드는 엔티티의 삽입(insert)과 수정(update)을 처리하는 중요한 메서드
 		commentkafkaTemplate.send("comment-create", CommentResponseDto.toDto(comment).toCommentKafkaVo());
 	}
@@ -45,7 +46,7 @@ public class CommentServiceImpl implements CommentService {
 	@Override
 	public void createReply(ReplyRequestDto replyRequestDto) {
 
-		Comment comment = commentRepository.save(replyRequestDto.toEntity());
+		Comment comment = commentRepository.save(replyRequestDto.toEntity(generateUniqueCommentCode()));
 		//save() 메서드는 엔티티의 삽입(insert)과 수정(update)을 처리하는 중요한 메서드
 		replykafkaTemplate.send("comment-reply-create", CommentResponseDto.toDto(comment).toReplyKafkaVo());
 	}
@@ -89,4 +90,19 @@ public class CommentServiceImpl implements CommentService {
 		commentRepository.save(commentDeleteDto.toEntity(comment));
 	}
 
+	private String generateUniqueCommentCode() {
+		int maxAttempts = 5;  // 최대 시도 횟수
+		int attempt = 0;
+		String commentCode;
+
+		do {
+			commentCode = UUID.randomUUID().toString();
+			attempt++;
+			if (attempt >= maxAttempts) {
+				throw new BaseException(BaseResponseStatus.DUPLICATED_COMMENT);
+			}
+		} while (commentRepository.existsByCommentCode(commentCode));
+
+		return commentCode;
+	}
 }

@@ -18,4 +18,6 @@ public interface CommentRepository extends JpaRepository<Comment, Long> {
 		boolean commentStatus);
 
 	Optional<Comment> findByCommentCode(String commentCode);
+
+	Boolean existsByCommentCode(String commentCode);
 }

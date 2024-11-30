@@ -1,7 +1,5 @@
 package lookids.comment.comment.dto.in;
 
-import java.util.UUID;
-
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -32,9 +30,9 @@ public class CommentRequestDto {
 		//dto로 전환을 시켜줌.
 	}
 
-	public Comment toEntity() {
+	public Comment toEntity(String commentCode) {
 		return Comment.builder()
-			.commentCode(UUID.randomUUID().toString())
+			.commentCode(commentCode)
 			.feedCode(feedCode)
 			.userUuid(userUuid)
 			.content(content)
