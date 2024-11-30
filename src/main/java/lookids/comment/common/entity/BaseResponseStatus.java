@@ -14,8 +14,8 @@ public enum BaseResponseStatus {
 	 **/
 	SUCCESS(HttpStatus.OK, true, 200, "요청에 성공하였습니다."),
 
-	NO_EXIST_DATA(HttpStatus.NOT_FOUND, false, 404, "데이터를 찾을 수 없습니다."),
-
+	NO_EXIST_DATA(HttpStatus.NOT_FOUND, false, 404, "데이터를 찾을 수 없습니다."), NO_SIGN_IN(HttpStatus.UNAUTHORIZED, false, 402,
+		"로그인을 먼저 진행해주세요"),
 	/**
 	 * 900: 기타 에러
 	 */
