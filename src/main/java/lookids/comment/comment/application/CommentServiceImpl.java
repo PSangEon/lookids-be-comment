@@ -77,7 +77,7 @@ public class CommentServiceImpl implements CommentService {
 		Comment comment = commentRepository.findByCommentCodeAndUserUuidAndCommentStatus(
 				commentDeleteDto.getCommentCode(), commentDeleteDto.getUserUuid(), true)
 			.orElseThrow(() -> new BaseException(BaseResponseStatus.NO_EXIST_DATA));
-		commentkafkaTemplate.send("comment-delete", CommentResponseDto.toDto(comment).toCommentKafkaVo());
+		commentkafkaTemplate.send("comment-delete", CommentResponseDto.toDto(comment).toCommentDeleteKafkaVo());
 		commentRepository.save(commentDeleteDto.toEntity(comment));
 	}
 
@@ -86,7 +86,7 @@ public class CommentServiceImpl implements CommentService {
 		Comment comment = commentRepository.findByCommentCodeAndUserUuidAndCommentStatus(
 				commentDeleteDto.getCommentCode(), commentDeleteDto.getUserUuid(), true)
 			.orElseThrow(() -> new BaseException(BaseResponseStatus.NO_EXIST_DATA));
-		replykafkaTemplate.send("comment-reply-delete", CommentResponseDto.toDto(comment).toReplyKafkaVo());
+		replykafkaTemplate.send("comment-reply-delete", CommentResponseDto.toDto(comment).toReplyDeleteKafkaVo());
 		commentRepository.save(commentDeleteDto.toEntity(comment));
 	}
 

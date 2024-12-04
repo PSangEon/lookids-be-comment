@@ -75,4 +75,25 @@ public class CommentResponseDto {
 			.build();
 	}
 
+	public CommentKafkaVo toCommentDeleteKafkaVo() {
+		return CommentKafkaVo.builder()
+			.commentCode(commentCode)
+			.feedCode(feedCode)
+			.uuid(userUuid)
+			.content(content)
+			.createdAt(LocalDateTime.now())
+			.build();
+	}
+
+	public ReplyKafkaVo toReplyDeleteKafkaVo() {
+		return ReplyKafkaVo.builder()
+			.commentCode(commentCode)
+			.feedCode(feedCode)
+			.parentCommentCode(parentCommentCode)
+			.uuid(userUuid)
+			.content(content)
+			.createdAt(LocalDateTime.now())
+			.build();
+	}
+
 }
