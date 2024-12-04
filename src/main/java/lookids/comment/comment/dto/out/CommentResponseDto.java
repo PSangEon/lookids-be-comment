@@ -66,7 +66,8 @@ public class CommentResponseDto {
 
 	public ReplyKafkaVo toReplyKafkaVo() {
 		return ReplyKafkaVo.builder()
-			.commentCode(this.commentCode)
+			.commentCode(commentCode)
+			.feedCode(feedCode)
 			.parentCommentCode(parentCommentCode)
 			.uuid(userUuid)
 			.content(content)
