@@ -40,7 +40,8 @@ public class CommentServiceImpl implements CommentService {
 
 		Comment comment = commentRepository.save(commentRequestDto.toEntity(generateUniqueCommentCode()));
 		//save() 메서드는 엔티티의 삽입(insert)과 수정(update)을 처리하는 중요한 메서드
-		commentkafkaTemplate.send("comment-create", CommentResponseDto.toDto(comment).toCommentKafkaVo());
+		commentkafkaTemplate.send("${comment.create}",
+			CommentResponseDto.toDto(comment).toCommentKafkaVo(commentRequestDto.getFeedUuid()));
 	}
 
 	@Override
@@ -48,7 +49,8 @@ public class CommentServiceImpl implements CommentService {
 
 		Comment comment = commentRepository.save(replyRequestDto.toEntity(generateUniqueCommentCode()));
 		//save() 메서드는 엔티티의 삽입(insert)과 수정(update)을 처리하는 중요한 메서드
-		replykafkaTemplate.send("comment-reply-create", CommentResponseDto.toDto(comment).toReplyKafkaVo());
+		replykafkaTemplate.send("${reply.create}",
+			CommentResponseDto.toDto(comment).toReplyKafkaVo(replyRequestDto.getFeedUuid()));
 	}
 
 	@Override
@@ -77,7 +79,7 @@ public class CommentServiceImpl implements CommentService {
 		Comment comment = commentRepository.findByCommentCodeAndUserUuidAndCommentStatus(
 				commentDeleteDto.getCommentCode(), commentDeleteDto.getUserUuid(), true)
 			.orElseThrow(() -> new BaseException(BaseResponseStatus.NO_EXIST_DATA));
-		commentkafkaTemplate.send("comment-delete", CommentResponseDto.toDto(comment).toCommentDeleteKafkaVo());
+		commentkafkaTemplate.send("${comment.delete}", CommentResponseDto.toDto(comment).toCommentDeleteKafkaVo());
 		commentRepository.save(commentDeleteDto.toEntity(comment));
 	}
 
@@ -86,7 +88,7 @@ public class CommentServiceImpl implements CommentService {
 		Comment comment = commentRepository.findByCommentCodeAndUserUuidAndCommentStatus(
 				commentDeleteDto.getCommentCode(), commentDeleteDto.getUserUuid(), true)
 			.orElseThrow(() -> new BaseException(BaseResponseStatus.NO_EXIST_DATA));
-		replykafkaTemplate.send("comment-reply-delete", CommentResponseDto.toDto(comment).toReplyDeleteKafkaVo());
+		replykafkaTemplate.send("${reply.delete}", CommentResponseDto.toDto(comment).toReplyDeleteKafkaVo());
 		commentRepository.save(commentDeleteDto.toEntity(comment));
 	}
 

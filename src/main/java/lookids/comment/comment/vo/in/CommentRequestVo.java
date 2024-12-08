@@ -7,6 +7,7 @@ import lombok.ToString;
 @Getter
 public class CommentRequestVo {
 	private String feedCode;
+	private String feedUuid;
 	private String content;
 }
 

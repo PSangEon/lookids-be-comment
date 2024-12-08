@@ -10,6 +10,7 @@ import lombok.Getter;
 public class CommentKafkaVo {
 	private String commentCode;
 	private String feedCode;
+	private String feedUuid;
 	private String uuid;
 	private String content;
 	private LocalDateTime createdAt;

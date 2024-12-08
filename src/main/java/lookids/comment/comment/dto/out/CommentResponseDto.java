@@ -54,20 +54,22 @@ public class CommentResponseDto {
 			.build();
 	}
 
-	public CommentKafkaVo toCommentKafkaVo() {
+	public CommentKafkaVo toCommentKafkaVo(String feedUuid) {
 		return CommentKafkaVo.builder()
 			.commentCode(commentCode)
 			.feedCode(feedCode)
+			.feedUuid(feedUuid)
 			.uuid(userUuid)
 			.content(content)
 			.createdAt(createdAt)
 			.build();
 	}
 
-	public ReplyKafkaVo toReplyKafkaVo() {
+	public ReplyKafkaVo toReplyKafkaVo(String feedUuid) {
 		return ReplyKafkaVo.builder()
 			.commentCode(commentCode)
 			.feedCode(feedCode)
+			.feedUuid(feedUuid)
 			.parentCommentCode(parentCommentCode)
 			.uuid(userUuid)
 			.content(content)

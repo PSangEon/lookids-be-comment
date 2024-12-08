@@ -32,7 +32,6 @@ public class CommentWriteController {
 	@PostMapping()
 	public BaseResponse<Void> createComment(@RequestHeader("uuid") String uuid,
 		@RequestBody CommentRequestVo commentRequestVo) {
-		log.info("uuid : {}", uuid);
 		commentService.createComment(CommentRequestDto.toDto(commentRequestVo, uuid));
 		return new BaseResponse<>(BaseResponseStatus.SUCCESS);
 	}
@@ -41,7 +40,6 @@ public class CommentWriteController {
 	@PostMapping("/reply")
 	public BaseResponse<Void> createReply(@RequestHeader("uuid") String uuid,
 		@RequestBody ReplyRequestVo replyRequestVo) {
-		log.info("uuid : {}", uuid);
 		commentService.createReply(ReplyRequestDto.toDto(replyRequestVo, uuid));
 		return new BaseResponse<>(BaseResponseStatus.SUCCESS);
 	}

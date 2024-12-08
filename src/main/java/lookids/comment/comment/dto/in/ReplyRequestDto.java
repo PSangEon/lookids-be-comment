@@ -10,13 +10,16 @@ import lookids.comment.comment.vo.in.ReplyRequestVo;
 @NoArgsConstructor
 public class ReplyRequestDto {
 	private String feedCode;
+	private String feedUuid;
 	private String userUuid;
 	private String content;
 	private String parentCommentCode;
 
 	@Builder
-	public ReplyRequestDto(String feedCode, String userUuid, String content, String parentCommentCode) {
+	public ReplyRequestDto(String feedCode, String feedUuid, String userUuid, String content,
+		String parentCommentCode) {
 		this.feedCode = feedCode;
+		this.feedUuid = feedUuid;
 		this.userUuid = userUuid;
 		this.content = content;
 		this.parentCommentCode = parentCommentCode;
@@ -25,6 +28,7 @@ public class ReplyRequestDto {
 	public static ReplyRequestDto toDto(ReplyRequestVo replyRequestVo, String userUuid) {
 		return ReplyRequestDto.builder()
 			.feedCode(replyRequestVo.getFeedCode())
+			.feedUuid(replyRequestVo.getFeedUuid())
 			.userUuid(userUuid)
 			.content(replyRequestVo.getContent())
 			.parentCommentCode(replyRequestVo.getParentCommentCode())
